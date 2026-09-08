@@ -1,15 +1,13 @@
 import geopandas as gpd
 from pathlib import Path
 
-# Ścieżki
-input_file = """D:/GIS NCBR/BDOT/OT_BUBD_A.parquet"""
-output_dir = Path("bdot-budynki_powiaty")
+# https://opendata.geoportal.gov.pl/bdot10k/schemat2021/GeoParquet/OT_BUBD_A.parquet
+input_file = "input/OT_BUBD_A.parquet"
+output_dir = Path("dane")
 output_dir.mkdir(exist_ok=True)
 
-# Nazwa kolumny, według której dzielimy plik
-attribute_column = "TERYT"  # zamień na swoją kolumnę
+attribute_column = "TERYT"
 
-# Format docelowy: 'parquet' (rekomendowany) lub 'gpkg'
 target_format = "parquet"
 
 print("Wczytywanie pliku SHP...")

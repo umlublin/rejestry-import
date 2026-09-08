@@ -1,21 +1,22 @@
 import geopandas as gpd
 from pathlib import Path
 
-input_shp = "input/PRG_PunktyAdresowe_POLSKA.shp"
+# https://opendata.geoportal.gov.pl/InneDane/latest_exports/eziudp_wfs/PARQUET/0_budynki.parquet
+input_file = "input/0_budynki.parquet"
 output_dir = Path("dane")
 output_dir.mkdir(exist_ok=True)
 
-attribute_column = "TERYT_POW"
+attribute_column = "TERYT"
 target_format = "parquet"
 
 print("Wczytywanie pliku SHP...")
-gdf = gpd.read_file(input_shp, encoding="utf-8")
-gdf = gdf.drop(columns=["ID_IIP"])
-gdf["TERYT_POW"] = gdf["TERYT_GMI"].astype(str).str.zfill(6).str[:4]
+gdf = gpd.read_parquet(input_file)
+# gdf = gdf.drop(columns=["ID_IIP"])
+# gdf["TERYT_POW"] = gdf["TERYT_GMI"].astype(str).str.zfill(6).str[:4]
 
 print(f"Dzielenie i zapisywanie danych wg atrybutu: {attribute_column}...")
 for teryt, group in gdf.groupby(attribute_column):
-    out_file = output_dir / f"{teryt}_pktadr.parquet"
+    out_file = output_dir / f"{teryt}_egib.parquet"
     group.to_parquet(out_file, index=False)
 
 print("Gotowe!")
