@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 from fnmatch import fnmatch
 
-fields_rename = {"X_DATAUTW": "DATAUTW", "LKOND": "LICZ_KONDY" }
+fields_rename = {"X_DATAUTW": "DATAUTW", "LKOND": "LICZ_KONDY"}
 fields_delete = ["X_*", "*_NIL", "NAZWA", "SKROT_KART", "INFO_DODAT", "UWAGI", "PRZES_NAZW", "WERSJA", "POCZ_WERSJA",
                  "ZRO_DANYCH", "PNAZW", "KOD25K", "KOD50K", "KOD100K", "KOD250K", "KOD500K", "KOD1000K", "KOD1000_NI",
                  "POCZWERS", "KONIECWERS", "OZNA_ZMIAN", "GMLID", "WERSJAID", "POCZ_WERSJ"]
@@ -68,16 +68,12 @@ def download_and_convert_bdot(teryt_powiat: str, rok: int, output_dir: str = "."
 
 # --- PRZYKŁAD UŻYCIA ---
 if __name__ == "__main__":
-    # Przykład: powiat oswiecimski (1213) lub lubelski (0609), rok 2023 / 2024
-    POWIAT = "0663"  # 4-znakowy TERYT powiatu
-    # ROK = 2023
     KATALOG_WYJSCIOWY = r"input"
-
     Path(KATALOG_WYJSCIOWY).mkdir(parents=True, exist_ok=True)
-    for rok in range(2015,2027):
-    # for rok in range(2026,2027):
-    # for rok in range(2014, 2016):
-        try:
-            download_and_convert_bdot(teryt_powiat=POWIAT, rok=rok, output_dir=KATALOG_WYJSCIOWY)
-        except FileNotFoundError:
-            print(f"brak {rok} {POWIAT}")
+
+    teryt = "3262"  # 4-znakowy TERYT powiatu
+    try:
+        download_and_convert_bdot(teryt_powiat=teryt, rok=2024, output_dir=KATALOG_WYJSCIOWY)
+        download_and_convert_bdot(teryt_powiat=teryt, rok=2026, output_dir=KATALOG_WYJSCIOWY)
+    except FileNotFoundError:
+        print(f"brak plików {teryt}")

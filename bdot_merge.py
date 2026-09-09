@@ -2,7 +2,7 @@ import geopandas as gpd
 from pathlib import Path
 
 base_dir = Path(r"input")
-teryt = "0663"
+teryt = "3262"
 
 base_file = base_dir / f"{teryt}_2026_bud.parquet"
 print(f"Wczytywanie pliku bazowego: {base_file.name}")
@@ -60,7 +60,7 @@ for year in [2024]:
             intersection_area = geom_base.intersection(geom_year).area
             overlap_ratio = round(intersection_area / row['area_base'],2)
             if overlap_ratio > 0.95:
-                print(f"{overlap_ratio}%: {intersection_area} {geom_year.area}")
+                # print(f"{overlap_ratio}%: {intersection_area} {geom_year.area}")
 
                 gdf_base.loc[index, "ZABYTEK"] = row['ZABYTEK']
                 gdf_base.loc[index, "UTWORZONO"] = str(row['DATAUTW_right'])[:4]
@@ -69,4 +69,4 @@ for year in [2024]:
     print(f"Dopasowane przestrzennie: {found_by_spatial}")
 
 print("\nGotowe! Analiza zakończona.")
-gdf_base.to_parquet(f"bdot_rzb.parquet")
+gdf_base.to_parquet(f"{teryt}_bdot_rzb.parquet")
