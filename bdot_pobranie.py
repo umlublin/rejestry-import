@@ -7,6 +7,10 @@ from pathlib import Path
 from datetime import datetime
 from fnmatch import fnmatch
 
+INPUT_PATH = r"input"
+DATA_PATH = r"data"
+OUTPUT_PATH = r"output"
+
 fields_rename = {"X_DATAUTW": "DATAUTW", "LKOND": "LICZ_KONDY"}
 fields_delete = ["X_*", "*_NIL", "NAZWA", "SKROT_KART", "INFO_DODAT", "UWAGI", "PRZES_NAZW", "WERSJA", "POCZ_WERSJA",
                  "ZRO_DANYCH", "PNAZW", "KOD25K", "KOD50K", "KOD100K", "KOD250K", "KOD500K", "KOD1000K", "KOD1000_NI",
@@ -66,14 +70,18 @@ def download_and_convert_bdot(teryt_powiat: str, rok: int, output_dir: str = "."
     return output_path
 
 
-# --- PRZYKŁAD UŻYCIA ---
-if __name__ == "__main__":
-    KATALOG_WYJSCIOWY = r"input"
-    Path(KATALOG_WYJSCIOWY).mkdir(parents=True, exist_ok=True)
+def main():
+    pow = gpd.read_parquet(f"{DATA_PATH}/powiaty.parquet")
+    Path(OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
 
-    teryt = "3262"  # 4-znakowy TERYT powiatu
-    try:
-        download_and_convert_bdot(teryt_powiat=teryt, rok=2024, output_dir=KATALOG_WYJSCIOWY)
-        download_and_convert_bdot(teryt_powiat=teryt, rok=2026, output_dir=KATALOG_WYJSCIOWY)
-    except FileNotFoundError:
-        print(f"brak plików {teryt}")
+    for index, row in pow.iterrows():
+        teryt = row["JPT_KOD_JE"]
+        try:
+            download_and_convert_bdot(teryt_powiat=teryt, rok=2024, output_dir=OUTPUT_PATH)
+            download_and_convert_bdot(teryt_powiat=teryt, rok=2026, output_dir=OUTPUT_PATH)
+        except FileNotFoundError:
+            print(f"brak plików {teryt}")
+
+
+if __name__ == "__main__":
+    main()
