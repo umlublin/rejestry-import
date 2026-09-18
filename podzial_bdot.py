@@ -1,6 +1,10 @@
 import geopandas as gpd
 from pathlib import Path
 
+# Pobranie danych aktualnych z BDOT i podzial wg. powiatu
+# nowe podejscie to bdot_pobranie.py
+
+
 # https://opendata.geoportal.gov.pl/bdot10k/schemat2021/GeoParquet/OT_BUBD_A.parquet
 input_file = "input/OT_BUBD_A.parquet"
 output_dir = Path("dane")

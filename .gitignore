@@ -1,4 +1,5 @@
 /.idea/
-/dane/
+/data/
 /input/
-*.parquet
+/output/
+/prg/

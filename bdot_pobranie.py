@@ -1,11 +1,11 @@
-import os
-import zipfile
 import tempfile
-import requests
-import geopandas as gpd
-from pathlib import Path
+import zipfile
 from datetime import datetime
 from fnmatch import fnmatch
+from pathlib import Path
+
+import geopandas as gpd
+import requests
 
 INPUT_PATH = r"input"
 DATA_PATH = r"data"
